@@ -300,7 +300,8 @@ def download_data(source: str,
 def eval_model(model: torch.nn.Module,
                data_loader: torch.utils.data.DataLoader,
                loss_fn: torch.nn.Module,
-               accuracy_fn):
+               accuracy_fn,
+               device: torch.device = "cuda" if torch.cuda.is_available() else "cpu"):
   """Return a dictionary containing the results of model predicting on data_loader."""
   loss, acc = 0, 0
   model.eval()
@@ -329,7 +330,7 @@ def train_step(model: torch.nn.Module,
                loss_fn: torch.nn.Module,
                optimizer: torch.optim.Optimizer,
                accuracy_fn,
-               device: torch.device = device):
+               device: torch.device = "cuda" if torch.cuda.is_available() else "cpu"):
 
 
   ### Training
@@ -370,7 +371,7 @@ def test_step(model: torch.nn.Module,
               data_loader: torch.utils.data.DataLoader,
               loss_fn: torch.nn.Module,
               accuracy_fn,
-              device: torch.device = device):
+              device: torch.device = "cuda" if torch.cuda.is_available() else "cpu"):
   ### Testing
   test_loss, test_acc = 0, 0
 
@@ -399,7 +400,7 @@ def test_step(model: torch.nn.Module,
 
 def make_predictions(model: torch.nn.Module,
                      data: list,
-                     device: torch.device = device):
+                     device: torch.device = "cuda" if torch.cuda.is_available() else "cpu"):
   pred_probs = []
   model.to(device)
   model.eval()
